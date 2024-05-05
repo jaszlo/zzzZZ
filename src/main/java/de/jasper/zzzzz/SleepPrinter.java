@@ -34,7 +34,7 @@ public class SleepPrinter {
 
     public static void printZZZZZ() {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null || ZzzzzSettings.useZZZ.getValue()) {
+        if (client.player == null || !ZzzzzSettings.useZZZ.getValue()) {
             return;
         }
         Random r = new Random();
