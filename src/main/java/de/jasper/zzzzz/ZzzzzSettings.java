@@ -13,7 +13,7 @@ import java.nio.file.Path;
 
 
 /**
- * Playerautoma option screen to configure settings
+ * zzzZZ option screen to configure settings
  */
 public class ZzzzzSettings extends GameOptionsScreen {
 
@@ -144,7 +144,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
             fw.write(toStore);
             fw.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ModInit.LOGGER.info(e.getMessage());
+            //e.printStackTrace();
         }
     }
 
@@ -163,7 +164,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
 
             return result.toString();
         } catch(IOException e) {
-            e.printStackTrace();
+            ModInit.LOGGER.info(e.getMessage());
+            //e.printStackTrace();
         }
 
         return isProlog ? DEFAULT_PROLOG : DEFAULT_EPILOGUE;
@@ -182,10 +184,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
         storeText(false);
     }
 
-    public void init() {
-        super.init();
-        assert this.client != null;
-
+    public static void register() {
+        MinecraftClient client = MinecraftClient.getInstance();
         prologText = new TextFieldWidget(client.textRenderer, 150, 20, Text.of(""));
         epilogueText = new TextFieldWidget(client.textRenderer, 150, 20, Text.of(""));
 
@@ -194,11 +194,6 @@ public class ZzzzzSettings extends GameOptionsScreen {
 
         prologText.setEditable(usePrologText.getValue());
         epilogueText.setEditable(useEpilogueText.getValue());
-
-
-        GridWidget gridWidget = new GridWidget();
-        gridWidget.getMainPositioner().marginX(5).marginBottom(4).alignHorizontalCenter();
-        GridWidget.Adder adder = gridWidget.createAdder(2);
 
         ButtonWidget useZZZButton = ButtonWidget.builder(
                 Text.translatable(useZZZ.key).append(": ").append(useZZZ.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
@@ -210,8 +205,9 @@ public class ZzzzzSettings extends GameOptionsScreen {
         useZZZ.setButton(useZZZButton);
 
         ButtonWidget frequencyButton = frequency.buttonOf();
-        frequencyButton.active = useZZZ.getValue();
         frequency.setButton(frequencyButton);
+        frequencyButton.active = useZZZ.getValue();
+
         ButtonWidget usePrologTextButton = ButtonWidget.builder(
                 Text.translatable(usePrologText.key).append(": ").append(usePrologText.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
                 (_b) -> {
@@ -256,25 +252,35 @@ public class ZzzzzSettings extends GameOptionsScreen {
         ).build();
         useMod.setButton(useModButton);
 
-        // Set active state according to useMod.getValue()
-        for (ClickableWidget child : useModChildren) {
-            child.active = useMod.getValue();
+        // Set all elements inactive if useMod.getValue() is false
+        if (!useMod.getValue()) {
+            for (ClickableWidget child : useModChildren) {
+                child.active = useMod.getValue();
+            }
         }
+    }
 
-        adder.add(useModButton, 2);
+    public void init() {
+        super.init();
+        GridWidget gridWidget = new GridWidget();
+        gridWidget.getMainPositioner().marginX(5).marginBottom(4).alignHorizontalCenter();
+        GridWidget.Adder adder = gridWidget.createAdder(2);
+
+        adder.add(useMod.button, 2);
 
         adder.add(frequency.button);
         adder.add(useZZZ.button);
 
         adder.add(prologText);
-        adder.add(usePrologTextButton);
+        adder.add(usePrologText.button);
 
         adder.add(epilogueText);
-        adder.add(useEpilogueTextButton);
+        adder.add(useEpilogueText.button);
 
         adder.add(EmptyWidget.ofHeight(16), 2);
         gridWidget.refreshPositions();
         SimplePositioningWidget.setPos(gridWidget, 0, this.height / 6 - 12, this.width, this.height, 0.5f, 0.0f);
         gridWidget.forEachChild(this::addDrawableChild);
+
     }
 }

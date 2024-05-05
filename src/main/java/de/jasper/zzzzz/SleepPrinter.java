@@ -34,7 +34,9 @@ public class SleepPrinter {
 
     public static void printZZZZZ() {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
+        if (client.player == null || !ZzzzzSettings.useZZZ.getValue()) {
+            return;
+        }
         Random r = new Random();
         // Repeat random amount of small and random Z's
         // Reach MinLength/MaxLength by reducing/increasing Z_Amount

@@ -3,6 +3,7 @@ package de.jasper.zzzzz;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -34,7 +35,10 @@ public class ModInit implements ModInitializer {
 				client.setScreen(new ZzzzzSettings("", null));
 			}
 		});
+		// Register settings to initialize config file and gui elements
+		MinecraftClient.getInstance().execute(ZzzzzSettings::register);
 
+		// Registers sleep printer to write messages to chat as configured
 		SleepPrinter.register();
 	}
 }
