@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class OptionButton<Value> {
 
-    private static final String OPTION_FILE_NAME = "playerautoma_options.txt";
-    private static final Logger LOGGER = LoggerFactory.getLogger("playerautoma::options");
+    private static final String OPTION_FILE_NAME = "zzzzz_options.txt";
+    private static final Logger LOGGER = LoggerFactory.getLogger("zzzzz::options");
 
     public static final Boolean[] BOOLEAN_VALUES = { true, false };
     public static final File OPTION_FILE = new File(String.valueOf(Path.of(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), OPTION_FILE_NAME)));
