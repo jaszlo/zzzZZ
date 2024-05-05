@@ -3,7 +3,7 @@
 	"id": "zzzzz",
 	"version": "${version}",
 	"name": "zzzzz",
-	"description": "Mod that write zzzZZ to chat when going to sleep",
+	"description": "L your friends know when you're sleeping via highly customizable messages",
 	"authors": [
 		"Jaszlo"
 	],
