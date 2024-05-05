@@ -1,9 +1,11 @@
 {
-	"required": false,
-	"package": "de.jasper.zzzzz.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "de.jasper.zzzzz.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PlayerEntityInjection"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

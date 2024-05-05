@@ -1,6 +1,11 @@
 {
   "zzzzz.keybindings.openSettings": "Open zzzZZ Settings",
   "zzzzz.keybindings.category": "zzzZZZ",
-  "zzzzz.option.usePrologText": "Use Prolog Text",
-  "zzzzz.option.useEpilogueText": "Use Epilogue Text"
+  "zzzzz.option.usePrologText": "Good Night Message",
+  "zzzzz.option.useEpilogueText": "Good Morning Message",
+  "zzzzz.option.useMod": "Use Mod",
+  "zzzzz.option.useZZZ": "Snore",
+  "zzzzz.option.frequency": "Snore Intensity"
+
+
 }
