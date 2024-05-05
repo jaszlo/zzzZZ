@@ -144,7 +144,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
             fw.write(toStore);
             fw.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ModInit.LOGGER.info(e.getMessage());
+            //e.printStackTrace();
         }
     }
 
@@ -163,7 +164,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
 
             return result.toString();
         } catch(IOException e) {
-            e.printStackTrace();
+            ModInit.LOGGER.info(e.getMessage());
+            //e.printStackTrace();
         }
 
         return isProlog ? DEFAULT_PROLOG : DEFAULT_EPILOGUE;
@@ -210,8 +212,9 @@ public class ZzzzzSettings extends GameOptionsScreen {
         useZZZ.setButton(useZZZButton);
 
         ButtonWidget frequencyButton = frequency.buttonOf();
-        frequencyButton.active = useZZZ.getValue();
         frequency.setButton(frequencyButton);
+        frequencyButton.active = useZZZ.getValue();
+
         ButtonWidget usePrologTextButton = ButtonWidget.builder(
                 Text.translatable(usePrologText.key).append(": ").append(usePrologText.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
                 (_b) -> {
@@ -256,9 +259,11 @@ public class ZzzzzSettings extends GameOptionsScreen {
         ).build();
         useMod.setButton(useModButton);
 
-        // Set active state according to useMod.getValue()
-        for (ClickableWidget child : useModChildren) {
-            child.active = useMod.getValue();
+        // Set all elements inactive if useMod.getValue() is false
+        if (!useMod.getValue()) {
+            for (ClickableWidget child : useModChildren) {
+                child.active = useMod.getValue();
+            }
         }
 
         adder.add(useModButton, 2);
