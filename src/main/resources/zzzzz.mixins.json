@@ -2,9 +2,7 @@
   "required": true,
   "package": "de.jasper.zzzzz.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": [
-    "PlayerEntityInjection"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

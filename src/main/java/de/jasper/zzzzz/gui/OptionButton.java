@@ -1,4 +1,4 @@
-package de.jasper.zzzzz;
+package de.jasper.zzzzz.gui;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;

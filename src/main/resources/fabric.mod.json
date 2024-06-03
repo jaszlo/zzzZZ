@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"de.jasper.zzzzz.ModInit"
+		],
+		"modmenu": [
+			"de.jasper.zzzzz.ModMenuApiImpl"
 		]
 	},
 	"mixins": [

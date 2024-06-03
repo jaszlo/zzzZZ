@@ -1,5 +1,6 @@
-package de.jasper.zzzzz;
+package de.jasper.zzzzz.gui;
 
+import de.jasper.zzzzz.ModInit;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
@@ -132,8 +133,8 @@ public class ZzzzzSettings extends GameOptionsScreen {
     public static TextFieldWidget prologText;
     public static TextFieldWidget epilogueText;
 
-    public ZzzzzSettings(String title, Screen parent) {
-        super(parent, MinecraftClient.getInstance().options, Text.of(title));
+    public ZzzzzSettings(Screen parent) {
+        super(parent, MinecraftClient.getInstance().options, Text.translatable("zzzzz.option.title"));
     }
 
     private static void storeText(boolean isProlog) {

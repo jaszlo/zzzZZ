@@ -1,4 +1,5 @@
 {
+  "zzzzz.option.title": "zzZZZ Options",
   "zzzzz.keybindings.openSettings": "Open zzzZZ Settings",
   "zzzzz.keybindings.category": "zzzZZZ",
   "zzzzz.option.usePrologText": "Good Night Message",
@@ -6,6 +7,4 @@
   "zzzzz.option.useMod": "Use Mod",
   "zzzzz.option.useZZZ": "Snore",
   "zzzzz.option.frequency": "Snore Intensity"
-
-
 }

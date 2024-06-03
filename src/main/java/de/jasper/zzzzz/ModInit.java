@@ -1,10 +1,12 @@
 package de.jasper.zzzzz;
 
+import de.jasper.zzzzz.gui.ZzzzzSettings;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ public class ModInit implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+		// Register SleepTracker to track state and write to chat accordingly
+		SleepTracker.register();
+
 		// Register option keybind
 		KeyBindingHelper.registerKeyBinding(openSettings);
 
@@ -32,13 +37,10 @@ public class ModInit implements ModInitializer {
 			}
 
 			if (openSettings.wasPressed()) {
-				client.setScreen(new ZzzzzSettings("", null));
+				client.setScreen(new ZzzzzSettings(client.currentScreen));
 			}
 		});
 		// Register settings to initialize config file and gui elements
 		MinecraftClient.getInstance().execute(ZzzzzSettings::register);
-
-		// Registers sleep printer to write messages to chat as configured
-		SleepPrinter.register();
 	}
 }
