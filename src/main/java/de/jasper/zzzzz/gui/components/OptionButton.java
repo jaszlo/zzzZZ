@@ -1,6 +1,6 @@
-package de.jasper.zzzzz.gui;
+package de.jasper.zzzzz.gui.components;
 
-import net.minecraft.client.MinecraftClient;
+import de.jasper.zzzzz.ModInit;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
@@ -17,11 +17,12 @@ import java.util.List;
  */
 public class OptionButton<Value> {
 
-    private static final String OPTION_FILE_NAME = "zzzzz_options.txt";
     private static final Logger LOGGER = LoggerFactory.getLogger("zzzzz::options");
 
+    private static final String OPTION_FILE_NAME = "zzzzz_options.txt";
+    public static final File OPTION_FILE = new File(String.valueOf(Path.of(ModInit.OPTIONS_FOLDER_PATH, OPTION_FILE_NAME)));
+
     public static final Boolean[] BOOLEAN_VALUES = { true, false };
-    public static final File OPTION_FILE = new File(String.valueOf(Path.of(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), OPTION_FILE_NAME)));
 
     public String key;
     public ButtonWidget button;

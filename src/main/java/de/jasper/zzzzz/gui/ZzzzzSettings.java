@@ -1,6 +1,7 @@
 package de.jasper.zzzzz.gui;
 
 import de.jasper.zzzzz.ModInit;
+import de.jasper.zzzzz.gui.components.OptionButton;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
@@ -11,6 +12,8 @@ import net.minecraft.text.Text;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -79,8 +82,14 @@ public class ZzzzzSettings extends GameOptionsScreen {
         }
     }
 
-    public static final File PROLOG_FILE = new File(String.valueOf(Path.of(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), "zzzzProlog")));
-    public static final File EPILOGUE_FILE = new File(String.valueOf(Path.of(MinecraftClient.getInstance().runDirectory.getAbsolutePath(), "zzzzEpilog")));
+    private static ClickableWidget[] useModChildren = new ClickableWidget[10];
+
+    public static final File PROLOG_FILE = new File(String.valueOf(Path.of(ModInit.MESSAGES_FOLDER_PATH, "zzzzProlog")));
+    public static final File EPILOGUE_FILE = new File(String.valueOf(Path.of(ModInit.MESSAGES_FOLDER_PATH, "zzzzEpilog")));
+
+    public static final String PROLOG_MESSAGES_FILE = "zzzzz_prolog_messages.txt";
+    public static final String EPILOGUE_MESSAGES_FILE = "zzzzz_epilogue_messages.txt";
+
     public static final String DEFAULT_PROLOG = "I go sleep sleep :)";
     public static final String DEFAULT_EPILOGUE = "Go' Mornin' Frien's :)";
 
@@ -125,6 +134,41 @@ public class ZzzzzSettings extends GameOptionsScreen {
             false,
             OptionButton.BOOLEAN_VALUES,
             "zzzzz.option.useEpilogueText",
+            Object::toString,
+            Boolean::parseBoolean,
+            (bool) -> (bool ? ScreenTexts.ON : ScreenTexts.OFF)
+    );
+
+
+    public static ButtonWidget openPrologMessageSelection = ButtonWidget.builder(
+            Text.translatable("zzzzz.option.openPrologMessageSelection"),
+            (button) -> {
+                MinecraftClient client = MinecraftClient.getInstance();
+                client.setScreen(new PrologMessageSelectionScreen(Text.translatable("zzzzz.messageSelectionScreen.prolog.title"), client.currentScreen, PROLOG_MESSAGES_FILE));
+            }
+    ).build();
+
+    public static OptionButton<Boolean> useRandomPrologMessage = new OptionButton<>(
+            false,
+            OptionButton.BOOLEAN_VALUES,
+            "zzzzz.option.useRandomPrologMessage",
+            Object::toString,
+            Boolean::parseBoolean,
+            (bool) -> (bool ? ScreenTexts.ON : ScreenTexts.OFF)
+    );
+
+    public static ButtonWidget openEpilogueMessageSelection = ButtonWidget.builder(
+            Text.translatable("zzzzz.option.openEpilogueMessageSelection"),
+            (button) -> {
+                MinecraftClient client = MinecraftClient.getInstance();
+                client.setScreen(new EpilogueMessageSelectionScreen(Text.translatable("zzzzz.messageSelectionScreen.epilogue.title"), client.currentScreen, EPILOGUE_MESSAGES_FILE));
+            }
+    ).build();
+
+    public static OptionButton<Boolean> useRandomEpilogueMessage = new OptionButton<>(
+            false,
+            OptionButton.BOOLEAN_VALUES,
+            "zzzzz.option.useRandomEpilogueMessage",
             Object::toString,
             Boolean::parseBoolean,
             (bool) -> (bool ? ScreenTexts.ON : ScreenTexts.OFF)
@@ -193,65 +237,28 @@ public class ZzzzzSettings extends GameOptionsScreen {
         prologText.setText(loadText(true));
         epilogueText.setText(loadText(false));
 
-        prologText.setEditable(usePrologText.getValue());
-        epilogueText.setEditable(useEpilogueText.getValue());
+        useZZZ.buttonOf();
+        frequency.buttonOf();
+        usePrologText.buttonOf();
+        useEpilogueText.buttonOf();
+        useRandomPrologMessage.buttonOf();
+        useRandomEpilogueMessage.buttonOf();
+        useMod.buttonOf();
 
-        ButtonWidget useZZZButton = ButtonWidget.builder(
-                Text.translatable(useZZZ.key).append(": ").append(useZZZ.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
-                (_b) -> {
-                    useZZZ.next();
-                    frequency.button.active = useZZZ.getValue();
-                }
-        ).build();
-        useZZZ.setButton(useZZZButton);
-
-        ButtonWidget frequencyButton = frequency.buttonOf();
-        frequency.setButton(frequencyButton);
-        frequencyButton.active = useZZZ.getValue();
-
-        ButtonWidget usePrologTextButton = ButtonWidget.builder(
-                Text.translatable(usePrologText.key).append(": ").append(usePrologText.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
-                (_b) -> {
-                    usePrologText.next();
-                    boolean val = usePrologText.getValue();
-                    prologText.active = val;
-                    prologText.setEditable(val);
-                }
-        ).build();
-        usePrologText.setButton(usePrologTextButton);
-
-        ButtonWidget useEpilogueTextButton = ButtonWidget.builder(
-                Text.translatable(useEpilogueText.key).append(": ").append(useEpilogueText.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
-                (_b) -> {
-                    useEpilogueText.next();
-                    boolean val = useEpilogueText.getValue();
-                    epilogueText.active = val;
-                    epilogueText.setEditable(val);
-                }
-        ).build();
-        useEpilogueText.setButton(useEpilogueTextButton);
-
-        ClickableWidget[] useModChildren = {
-                useZZZButton,
-                frequencyButton,
-                usePrologTextButton,
-                useEpilogueTextButton,
+        useModChildren = new ClickableWidget[]{
+                useZZZ.button,
+                frequency.button,
+                usePrologText.button,
+                useEpilogueText.button,
                 prologText,
-                epilogueText
+                epilogueText,
+                openPrologMessageSelection,
+                useRandomPrologMessage.button,
+                openEpilogueMessageSelection,
+                useRandomEpilogueMessage.button
         };
 
-        ButtonWidget useModButton = ButtonWidget.builder(
-                Text.translatable(useMod.key).append(": ").append(useMod.getValue() ? ScreenTexts.ON : ScreenTexts.OFF),
-                (_b) -> {
-                    useMod.next();
-                    for (ClickableWidget child : useModChildren) {
-                        child.active = useMod.getValue();
-                    }
-                    prologText.setEditable(useMod.getValue());
-                    epilogueText.setEditable(useMod.getValue());
-                }
-        ).build();
-        useMod.setButton(useModButton);
+
 
         // Set all elements inactive if useMod.getValue() is false
         if (!useMod.getValue()) {
@@ -260,6 +267,34 @@ public class ZzzzzSettings extends GameOptionsScreen {
             }
         }
     }
+
+    @Override
+    public void tick() {
+        super.tick();
+        updateElementsActive();
+    }
+
+    private void updateElementsActive() {
+
+        for (ClickableWidget child : useModChildren) {
+            child.active = useMod.getValue();
+            if (child instanceof TextFieldWidget textFieldWidget) {
+                textFieldWidget.setEditable(useMod.getValue());
+            }
+        }
+
+        if (!useMod.getValue()) return;
+
+        frequency.button.active = useZZZ.getValue();
+        prologText.active = usePrologText.getValue();
+        prologText.setEditable(usePrologText.getValue());
+        openPrologMessageSelection.active = useRandomPrologMessage.getValue();
+
+        epilogueText.active = useEpilogueText.getValue();
+        epilogueText.setEditable(useEpilogueText.getValue());
+        openEpilogueMessageSelection.active = useRandomEpilogueMessage.getValue();
+    }
+
 
     public void init() {
         super.init();
@@ -272,11 +307,21 @@ public class ZzzzzSettings extends GameOptionsScreen {
         adder.add(frequency.button);
         adder.add(useZZZ.button);
 
+        adder.add(EmptyWidget.ofWidth(16), 2);
+
         adder.add(prologText);
         adder.add(usePrologText.button);
 
+        adder.add(openPrologMessageSelection);
+        adder.add(useRandomPrologMessage.button);
+
+        adder.add(EmptyWidget.ofWidth(16), 2);
+
         adder.add(epilogueText);
         adder.add(useEpilogueText.button);
+
+        adder.add(openEpilogueMessageSelection);
+        adder.add(useRandomEpilogueMessage.button);
 
         adder.add(EmptyWidget.ofHeight(16), 2);
         gridWidget.refreshPositions();

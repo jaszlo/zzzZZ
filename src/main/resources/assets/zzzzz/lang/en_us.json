@@ -1,7 +1,19 @@
 {
   "zzzzz.option.title": "zzZZZ Options",
+  "zzzzz.messageSelectionScreen.delete": "Delete",
+  "zzzzz.messageSelectionScreen.add": "Add",
+  "zzzzz.messageSelectionScreen.deletionFailed": "Failed to delete command to exclude",
+  "zzzzz.messageSelectionScreen.prolog.title": "Random Good Night Message",
+  "zzzzz.messageSelectionScreen.epilogue.title": "Random Good Morning Message",
+
+  "zzzzz.option.useRandomPrologMessage": "Random Night Message",
+  "zzzzz.option.useRandomEpilogueMessage": "Random Morning Message",
+
   "zzzzz.keybindings.openSettings": "Open zzzZZ Settings",
   "zzzzz.keybindings.category": "zzzZZZ",
+  "zzzzz.option.openPrologMessageSelection": "Add Good Night Messages...",
+  "zzzzz.option.openEpilogueMessageSelection": "Add Good Morning Messages...",
+
   "zzzzz.option.usePrologText": "Good Night Message",
   "zzzzz.option.useEpilogueText": "Good Morning Message",
   "zzzzz.option.useMod": "Use Mod",

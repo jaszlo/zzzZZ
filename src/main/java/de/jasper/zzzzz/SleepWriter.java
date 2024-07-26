@@ -1,8 +1,12 @@
 package de.jasper.zzzzz;
 
+import de.jasper.zzzzz.gui.EpilogueMessageSelectionScreen;
+import de.jasper.zzzzz.gui.PrologMessageSelectionScreen;
 import de.jasper.zzzzz.gui.ZzzzzSettings;
 import net.minecraft.client.MinecraftClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SleepWriter {
@@ -16,14 +20,23 @@ public class SleepWriter {
     static int maxLength = 12;
 
     public static void writeProlog() {
-        // Once cool down is never reached. Therefore, print it in prolog which is always called when going to sleep
-        if (ZzzzzSettings.useZZZ.getValue() && ZzzzzSettings.frequency.getValue().equals(ZzzzzSettings.Frequency.ONCE)) {
-            writeZZZZZInternal();
-        }
-
         if (ZzzzzSettings.usePrologText.getValue()) {
             assert MinecraftClient.getInstance().player != null;
             MinecraftClient.getInstance().player.networkHandler.sendChatMessage(ZzzzzSettings.prologText.getText());
+        }
+
+        if (ZzzzzSettings.useRandomPrologMessage.getValue()) {
+            int size = PrologMessageSelectionScreen.messageList.size();
+            if (size > 0) {
+                String message = PrologMessageSelectionScreen.messageList.get(new Random().nextInt(size));
+                assert MinecraftClient.getInstance().player != null;
+                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(message);
+            }
+        }
+
+        // Once cool down is never reached. Therefore, print it in prolog which is always called when going to sleep
+        if (ZzzzzSettings.useZZZ.getValue() && ZzzzzSettings.frequency.getValue().equals(ZzzzzSettings.Frequency.ONCE)) {
+            writeZZZZZInternal();
         }
     }
 
@@ -31,6 +44,15 @@ public class SleepWriter {
         if (ZzzzzSettings.useEpilogueText.getValue()) {
             assert MinecraftClient.getInstance().player != null;
             MinecraftClient.getInstance().player.networkHandler.sendChatMessage(ZzzzzSettings.epilogueText.getText());
+        }
+
+        if (ZzzzzSettings.useRandomPrologMessage.getValue()) {
+            int size = EpilogueMessageSelectionScreen.messageList.size();
+            if (size > 0) {
+                String message = EpilogueMessageSelectionScreen.messageList.get(new Random().nextInt(size));
+                assert MinecraftClient.getInstance().player != null;
+                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(message);
+            }
         }
     }
 

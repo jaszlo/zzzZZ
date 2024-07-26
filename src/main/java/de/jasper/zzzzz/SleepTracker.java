@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 public class SleepTracker {
 
 
-    public static enum State {
+    public enum State {
         AWAKE,              // sleeping -> falling_asleep,  !sleeping -> awake
         FALLING_ASLEEP,     // sleeping -> sleeping,        !sleeping -> awake
         SLEEPING,           // sleeping -> sleeping,        !sleeping -> waking up
@@ -20,12 +20,14 @@ public class SleepTracker {
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             // Check if player is in-game. If not reset state and do nothing else
-            if (client.player == null) {
+            if (client.world == null || client.player == null) {
                 state = State.AWAKE;
                 return;
             }
 
             boolean sleeping = client.player.isSleeping();
+            long timeOfDay = client.world.getTimeOfDay();
+            boolean canGoToSleep = 12541 <= timeOfDay && timeOfDay <= 23460;
 
             // Update state accordingly
             switch (state) {
@@ -37,7 +39,8 @@ public class SleepTracker {
                     else state = State.AWAKE;
                     break;
                 case SLEEPING:
-                    if (!sleeping) state = State.WAKING_UP;
+                    // If no longer sleeping but also could not go to sleep it's the next day
+                    if (!sleeping && !canGoToSleep) state = State.WAKING_UP;
                     break;
                 case WAKING_UP:
                     if (!sleeping) state = State.AWAKE;
