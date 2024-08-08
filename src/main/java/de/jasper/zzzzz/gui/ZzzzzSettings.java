@@ -12,8 +12,6 @@ import net.minecraft.text.Text;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -328,5 +326,10 @@ public class ZzzzzSettings extends GameOptionsScreen {
         SimplePositioningWidget.setPos(gridWidget, 0, this.height / 6 - 12, this.width, this.height, 0.5f, 0.0f);
         gridWidget.forEachChild(this::addDrawableChild);
 
+    }
+
+    @Override
+    protected void addOptions() {
+        return;
     }
 }
