@@ -5,8 +5,6 @@ import de.jasper.zzzzz.gui.PrologMessageSelectionScreen;
 import de.jasper.zzzzz.gui.ZzzzzSettings;
 import net.minecraft.client.MinecraftClient;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class SleepWriter {

@@ -41,6 +41,8 @@ public class SleepTracker {
                 case SLEEPING:
                     // If no longer sleeping but also could not go to sleep it's the next day
                     if (!sleeping && !canGoToSleep) state = State.WAKING_UP;
+                    // If no longer sleeping but also could sleep player canceled going sleeping
+                    if (!sleeping && canGoToSleep) state = State.AWAKE;
                     break;
                 case WAKING_UP:
                     if (!sleeping) state = State.AWAKE;
